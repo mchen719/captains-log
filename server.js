@@ -74,6 +74,18 @@ app.delete('/logs/:id', async (req, res) => {
     }
 })
 
+// Edit 
+app.get('/logs/:id/edit', async (req,res) => {
+    try {
+        const foundLog = await Log.findOne({_id: req.params.id})
+        res.render('logs/Edit', {
+            log: foundLog
+        })
+    } catch (error) {
+        res.status(400).send({message: error.message})
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Connected to Port${PORT}`)
 })

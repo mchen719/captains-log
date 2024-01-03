@@ -4,7 +4,7 @@ function Show(props) {
     return(
         <div>
             <h1>{props.log.title}</h1>
-            <a href='/logs'>Go Back to Logs</a>
+            <a href='/logs'>Go Back to Captain's Logs</a>
 
             <p>
                 {props.log.entry}
