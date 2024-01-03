@@ -18,12 +18,12 @@ mongoose.connection.once('open', () => {
     console.log('Connected to MongoDB')
 })
 
-//New
+// New
 app.get('/logs/new', (req, res) => {
     res.render('logs/New')
 })
 
-//Create
+// Create
 app.post('/logs', async (req, res) => {
     if (req.body.shipIsBroken === 'on') {
         req.body.shipIsBroken = true
@@ -51,7 +51,7 @@ app.get('/logs', async (req, res) => {
     }
 })
 
-//Show 
+// Show 
 app.get('/logs/:id', async (req, res) => {
     try {
         const foundLog = await Log.findOne({_id: req.params.id})
@@ -81,6 +81,23 @@ app.get('/logs/:id/edit', async (req,res) => {
         res.render('logs/Edit', {
             log: foundLog
         })
+    } catch (error) {
+        res.status(400).send({message: error.message})
+    }
+})
+
+// Update
+app.put('/logs/:id', async (req, res) => {
+    if (req.body.shipIsBroken === 'on') {
+        req.body.shipIsBroken = true
+    } else {
+        req.body.shipIsBroken = false
+    }
+
+    try {
+        await Log.findOneAndUpdate({_id: req.params.id}, req.body, {new: true}).then(() => {
+            res.redirect(`/logs/${req.params.id}`)
+        })  
     } catch (error) {
         res.status(400).send({message: error.message})
     }
