@@ -49,6 +49,18 @@ app.get('/logs', async (req, res) => {
     }
 })
 
+//Show 
+app.get('/logs/:id', async (req, res) => {
+    try {
+        const foundLog = await Log.findOne({_id: req.params.id})
+        res.render('logs/Show', {
+            log: foundLog
+        })
+    } catch (error) {
+        res.status(400).send({message: error.message})
+    }
+})
+
 
 app.listen(PORT, () => {
     console.log(`Connected to Port${PORT}`)
